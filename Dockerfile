@@ -119,7 +119,6 @@ RUN \
     -DCUSTOM_DOCDIR="/usr/share/doc/luanti" \
     -DCUSTOM_SHAREDIR="/usr/share/luanti" \
     -DENABLE_CURL=1 \
-    -DENABLE_FREETYPE=1 \
     -DENABLE_GETTEXT=0 \
     -DENABLE_LEVELDB=1 \
     -DENABLE_LUAJIT=1 \
