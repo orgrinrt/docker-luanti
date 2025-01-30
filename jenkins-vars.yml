@@ -5,7 +5,7 @@ project_name: docker-luanti
 external_type: custom_json
 release_type: stable
 release_tag: latest
-ls_branch: master
+ls_branch: main
 repo_vars:
   - JSON_URL = 'https://api.github.com/repos/luanti-org/luanti/releases'
   - JSON_PATH = 'first(.[] | select(.tag_name | contains("android") | not)) | .tag_name'
