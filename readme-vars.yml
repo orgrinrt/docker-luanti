@@ -1,0 +1,87 @@
+---
+
+# project information
+project_name: luanti
+project_url: "https://www.luanti.org/"
+project_logo: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/minetest-icon.png"
+project_blurb: "[{{ project_name|capitalize }}]({{ project_url }}) (formerly Minetest) is an open source voxel game-creation platform with easy modding and game creation "
+project_lsio_github_repo_url: "https://github.com/linuxserver/docker-{{ project_name }}"
+project_categories: "Games"
+# supported architectures
+available_architectures:
+  - {arch: "{{ arch_x86_64 }}", tag: "amd64-latest"}
+  - {arch: "{{ arch_arm64 }}", tag: "arm64v8-latest"}
+# container parameters
+common_param_env_vars_enabled: true
+param_container_name: "{{ project_name }}"
+param_usage_include_vols: true
+param_volumes:
+  - {vol_path: "/config/.minetest", vol_host_path: "/path/to/{{ project_name }}/data", desc: "Where luanti stores config files and maps etc."}
+param_usage_include_ports: true
+param_ports:
+  - {external_port: "30000", internal_port: "30000/udp", port_desc: "Port Luanti listens on (UDP)."}
+# optional container parameters
+opt_param_usage_include_env: true
+opt_param_env_vars:
+  - {env_var: "CLI_ARGS", env_value: "--gameid devtest", desc: "Optionally specify any [CLI variables](https://wiki.luanti.net/Command_line) you want to launch the app with"}
+# application setup block
+app_setup_block_enabled: true
+app_setup_block: |
+  You can find the world maps, mods folder and config files in /config/.minetest.
+
+  If you want to override the advertised port, ensure you add --port in your CLI_ARGS AND ensure the internal port reflects the change, ie;
+  if you set your advertised port to 40000 with --port 40000 then your ports declaration should be 40000:40000/udp
+
+  Client and server must be the same version, please browse the tags here to pull the appropriate version for your server:
+
+  https://hub.docker.com/r/linuxserver/{{ project_name }}/tags
+
+  ### Bundled Games
+
+  As per [upstream request](https://github.com/luanti-org/luanti/releases/tag/5.8.0) this image no longer includes [minetest_game](https://github.com/luanti-org/minetest_game), so if required you will need to either install via ContentDB or download it from their repo and copy to `/config/.minetest/games/minetest`
+# init diagram
+init_diagram: |
+  "minetest:latest": {
+    docker-mods
+    base {
+      fix-attr +\nlegacy cont-init
+    }
+    docker-mods -> base
+    legacy-services
+    custom services
+    init-services -> legacy-services
+    init-services -> custom services
+    custom services -> legacy-services
+    legacy-services -> ci-service-check
+    init-migrations -> init-adduser
+    init-os-end -> init-config
+    init-config -> init-config-end
+    init-minetest-config -> init-config-end
+    init-os-end -> init-crontab-config
+    init-mods-end -> init-custom-files
+    base -> init-envfile
+    base -> init-migrations
+    init-config -> init-minetest-config
+    base -> init-mods
+    init-config-end -> init-mods
+    init-mods -> init-mods-end
+    init-mods-package-install -> init-mods-end
+    init-mods -> init-mods-package-install
+    base -> init-os-end
+    init-adduser -> init-os-end
+    init-envfile -> init-os-end
+    init-migrations -> init-os-end
+    init-custom-files -> init-services
+    init-mods-end -> init-services
+    init-services -> svc-cron
+    svc-cron -> legacy-services
+    init-services -> svc-minetest
+    svc-minetest -> legacy-services
+  }
+  Base Images: {
+    "baseimage-alpine:3.20"
+  }
+  "minetest:latest" <- Base Images
+# changelog
+changelogs:
+  - {date: "30.01.25:", desc: "Initial Release."}

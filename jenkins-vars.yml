@@ -1,0 +1,28 @@
+---
+
+# jenkins variables
+project_name: docker-luanti
+external_type: custom_json
+release_type: stable
+release_tag: latest
+ls_branch: master
+repo_vars:
+  - JSON_URL = 'https://api.github.com/repos/luanti-org/luanti/releases'
+  - JSON_PATH = 'first(.[] | select(.tag_name | contains("android") | not)) | .tag_name'
+  - BUILD_VERSION_ARG = 'LUANTI_RELEASE'
+  - LS_USER = 'linuxserver'
+  - LS_REPO = 'docker-luanti'
+  - CONTAINER_NAME = 'luanti'
+  - DOCKERHUB_IMAGE = 'linuxserver/luanti'
+  - DEV_DOCKERHUB_IMAGE = 'lsiodev/luanti'
+  - PR_DOCKERHUB_IMAGE = 'lspipepr/luanti'
+  - DIST_IMAGE = 'alpine'
+  - MULTIARCH='true'
+  - CI='true'
+  - CI_WEB='false'
+  - CI_PORT='80'
+  - CI_SSL='false'
+  - CI_DELAY='120'
+  - CI_DOCKERENV='CLI_ARGS=--gameid devtest'
+  - CI_AUTH=''
+  - CI_WEBPATH=''
