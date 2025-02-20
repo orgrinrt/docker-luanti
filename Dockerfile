@@ -113,8 +113,7 @@ RUN \
   cd /tmp/luanti && \
   cmake . -B build \
     -DCMAKE_BUILD_TYPE=Release \
-#    -DBUILD_CLIENT=0 \
-    -DBUILD_CLIENT=1 \
+    -DBUILD_CLIENT=0 \
     -DBUILD_SERVER=1 \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCUSTOM_BINDIR=/usr/bin \
@@ -130,6 +129,8 @@ RUN \
     -DENABLE_SOUND=0 \
     -DENABLE_SYSTEM_GMP=1 \
     -DRUN_IN_PLACE=0 \
+    -DENABLE_SPATIAL=1 \
+    -DVERSION_EXTRA=csm-ready-alpha \
     -GNinja && \
   cmake --build build && \
   cmake --install build && \
