@@ -103,7 +103,8 @@ RUN \
     /tmp/luanti && \
   curl -o \
     /tmp/luanti-src.tar.gz -L \
-    "https://github.com/luanti-org/luanti/archive/${LUANTI_RELEASE}.tar.gz" && \
+#    "https://github.com/luanti-org/luanti/archive/${LUANTI_RELEASE}.tar.gz" && \
+    "https://codeberg.org/halon/Minetest/archive/master.tar.gz" && \
   tar xf /tmp/luanti-src.tar.gz -C \
     /tmp/luanti --strip-components=1 && \
   sed -i 's/# enable_ipv6 = true/enable_ipv6 = true/' /tmp/luanti/minetest.conf.example && \
