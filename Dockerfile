@@ -113,7 +113,8 @@ RUN \
   cd /tmp/luanti && \
   cmake . -B build \
     -DCMAKE_BUILD_TYPE=Release \
-    -DBUILD_CLIENT=0 \
+#    -DBUILD_CLIENT=0 \
+    -DBUILD_CLIENT=1 \
     -DBUILD_SERVER=1 \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCUSTOM_BINDIR=/usr/bin \
